@@ -216,6 +216,18 @@ public class HereAccessTokenProvider implements AccessTokenSupplier, Closeable, 
                     alwaysRequestNewToken,
                     retryPolicy);
         }
+
+        public HereAccessTokenProvider build(String path) {
+
+            if (null == clientAuthorizationRequestProvider) {
+                // use the default provider chain
+                Clock clock = new SettableSystemClock();
+                this.clientAuthorizationRequestProvider =
+                        ClientAuthorizationProviderChain.getNewDefaultClientCredentialsProviderChain(clock, path);
+            }
+
+            return build();
+        }
     }
 
     private final Serializer serializer;

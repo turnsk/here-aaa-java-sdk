@@ -46,6 +46,10 @@ implements ClientAuthorizationRequestProvider {
         this(clock, getDefaultHereCredentialsFile());
     }
     
+    public FromDefaultHereCredentialsPropertiesFile(Clock clock, String path) {
+        this(clock, getDefaultHereCredentialsFile(path));
+    }
+
     public FromDefaultHereCredentialsPropertiesFile(File file) {
         this(new SettableSystemClock(), file);
     }
@@ -68,6 +72,10 @@ implements ClientAuthorizationRequestProvider {
 
     static File getDefaultHereCredentialsFile() {
         return DefaultHereConfigFiles.getDefaultHereConfigFile(CREDENTIALS_DOT_PROPERTIES_FILENAME);
+    }
+
+    static File getDefaultHereCredentialsFile( String path ) {
+        return DefaultHereConfigFiles.getDefaultHereConfigFile(CREDENTIALS_DOT_PROPERTIES_FILENAME, path);
     }
 
     /**

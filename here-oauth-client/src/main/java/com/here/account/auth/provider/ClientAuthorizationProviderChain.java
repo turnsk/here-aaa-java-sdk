@@ -86,6 +86,21 @@ public class ClientAuthorizationProviderChain implements ClientAuthorizationRequ
                 );
     }
 
+    public static ClientAuthorizationProviderChain getNewDefaultClientCredentialsProviderChain(
+            Clock clock, String path
+    ) {
+        ClientAuthorizationRequestProvider systemProvider = new FromSystemProperties(clock);
+        ClientAuthorizationRequestProvider iniFileProvider = new FromHereCredentialsIniFile(clock);
+        ClientAuthorizationRequestProvider propertiesFileProvider = new FromDefaultHereCredentialsPropertiesFile(clock, path);
+        ClientAuthorizationRequestProvider runAsIdFileProvider = new FromRunAsIdFileProvider(clock);
+        return new ClientAuthorizationProviderChain(
+                systemProvider,
+                iniFileProvider,
+                propertiesFileProvider,
+                runAsIdFileProvider
+                );
+    }
+
     protected ClientAuthorizationRequestProvider getClientCredentialsProvider() {
         if (mostRecentProvider != null) {
             return mostRecentProvider;

@@ -34,4 +34,8 @@ class DefaultHereConfigFiles {
         return null;
     }
 
+    static File getDefaultHereConfigFile(String name, String path) {
+        File dir = new File(path);
+    	return new File( dir, name );
+    }
 }
